@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Button;
@@ -15,6 +16,7 @@ public class MainActivity extends Activity {
     Button b_play;
     Button b_stop;
     MyCount counter;
+    Integer myDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +30,17 @@ public class MainActivity extends Activity {
         b_play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //set music
+                //@todo add option to play sound on start
                 mpAudio = MediaPlayer.create(MainActivity.this, R.raw.singingbowl);
+
+                EditText timerDuration = (EditText) findViewById(R.id.i_duration);
+                //parse edit text String to Int
+                //@todo Add some error checking here
+                myDuration = Integer.parseInt(timerDuration.getText().toString());
+                //Convert minutes to milliseconds
+                myDuration = myDuration * 60 * 1000;
                 //instantiate counter 1200000 = 20 minutes
-                counter = new MyCount(1200000,1000);
+                counter = new MyCount(myDuration,1000);
                 //start counter
                 counter.start();
             }
@@ -66,6 +76,7 @@ public class MainActivity extends Activity {
         public void onTick(long millisUntilFinished) {
             final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
             textViewToChange.setText(
+                    //@todo convert this to minutes/seconds
                     "Left: " + millisUntilFinished/1000);
         }
     }

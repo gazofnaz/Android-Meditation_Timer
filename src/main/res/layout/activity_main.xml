@@ -51,4 +51,26 @@
 
     </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+        <EditText
+                android:id="@+id/i_duration"
+                android:text="@string/i_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="18pt"
+                android:typeface="sans"
+                android:textColor="#CCCCCC"
+                android:textAlignment="center"/>
+
+    </LinearLayout>
+
+
 </LinearLayout>
