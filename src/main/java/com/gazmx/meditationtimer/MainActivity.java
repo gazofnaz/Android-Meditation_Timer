@@ -13,7 +13,6 @@ public class MainActivity extends Activity {
 
     MediaPlayer mpAudio;
     Button b_play;
-    Button b_pause;
     Button b_stop;
     MyCount counter;
 
@@ -24,26 +23,16 @@ public class MainActivity extends Activity {
         //set view to my xml file
         setContentView(R.layout.activity_main);
 
-        //set music
-        mpAudio = MediaPlayer.create(this, R.raw.singingbowl);
-
-        //start counter
-        counter = new MyCount(5000,1000);
-        counter.start();
-
         //action for play
         b_play = (Button) findViewById(R.id.b_play);
         b_play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mpAudio.start();
-            }
-        });
-
-        //action for pause
-        b_pause = (Button) findViewById(R.id.b_pause);
-        b_pause.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mpAudio.pause();
+                //set music
+                mpAudio = MediaPlayer.create(MainActivity.this, R.raw.singingbowl);
+                //instantiate counter 1200000 = 20 minutes
+                counter = new MyCount(1200000,1000);
+                //start counter
+                counter.start();
             }
         });
 
@@ -51,16 +40,15 @@ public class MainActivity extends Activity {
         b_stop = (Button) findViewById(R.id.b_stop);
         b_stop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                counter.cancel();
                 mpAudio.stop();
             }
         });
-
-
     }
 
     public class MyCount extends CountDownTimer{
 
-        //not sure what this does
+        //Constructor, using name of the class, super passes it to parent?
         public MyCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
