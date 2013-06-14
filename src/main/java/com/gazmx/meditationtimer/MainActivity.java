@@ -74,10 +74,15 @@ public class MainActivity extends Activity {
         //tick each second
         @Override
         public void onTick(long millisUntilFinished) {
+            //get textView object
             final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
-            textViewToChange.setText(
-                    //@todo convert this to minutes/seconds
-                    "Left: " + millisUntilFinished/1000);
+
+            int seconds = (int) (millisUntilFinished / 1000) % 60 ;
+            int minutes = (int) ((millisUntilFinished / (1000*60)) % 60);
+            //set nice print for time
+            String finishTime=minutes+":"+seconds;
+            //change time in textViews
+            textViewToChange.setText("Left: " + finishTime);
         }
     }
 }
