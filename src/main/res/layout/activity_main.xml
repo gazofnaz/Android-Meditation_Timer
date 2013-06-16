@@ -57,20 +57,41 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-        <EditText
+        <TextView
                 android:id="@+id/i_duration"
-                android:text="@string/i_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textSize="18pt"
                 android:typeface="sans"
+                android:text="@string/i_duration"
                 android:textColor="#CCCCCC"
                 android:textAlignment="center"/>
 
     </LinearLayout>
+    
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+        <SeekBar
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/i_seek"
+                android:layout_gravity="center"
+                android:max="60"
+                android:minWidth="250dp"
+                android:progress="@string/i_duration"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"/>
+
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 /**
  * Sets a timer, plays a sound after the specified duration.
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
     Button b_stop;
     MyCount counter;
     Integer myDuration;
+    SeekBar seekBar;
+    TextView timerInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,10 @@ public class MainActivity extends Activity {
 
         //set view to my xml file
         setContentView(R.layout.activity_main);
+        //get the seek bar
+        seekBar = (SeekBar) findViewById(R.id.i_seek);
+        //get the duration input (value set by seek bar)
+        timerInput = (TextView) findViewById(R.id.i_duration);
 
         //action for play
         b_play = (Button) findViewById(R.id.b_play);
@@ -38,10 +45,9 @@ public class MainActivity extends Activity {
                 //@todo add option to play sound on start
                 mpAudio = MediaPlayer.create(MainActivity.this, R.raw.singingbowl);
 
-                EditText timerDuration = (EditText) findViewById(R.id.i_duration);
                 //parse edit text String to Int
                 //@todo Add some error checking here
-                myDuration = Integer.parseInt(timerDuration.getText().toString());
+                myDuration = Integer.parseInt(timerInput.getText().toString());
                 //Convert minutes to milliseconds
                 myDuration = myDuration * 60 * 1000;
                 //instantiate counter 1200000 = 20 minutes
@@ -57,6 +63,18 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 counter.cancel();
                 mpAudio.stop();
+            }
+        });
+
+        seekBar.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener(){
+            //set display text to count value.
+            public void onProgressChanged(SeekBar seekBar, int duration,
+                                          boolean fromUser){
+                timerInput.setText(String.valueOf(duration));
+            }
+            public void onStartTrackingTouch(SeekBar seekBar){
+            }
+            public void onStopTrackingTouch(SeekBar seekBar){
             }
         });
     }
