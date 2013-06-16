@@ -9,7 +9,12 @@ import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Button;
 
-
+/**
+ * Sets a timer, plays a sound after the specified duration.
+ *
+ * @version 0.4
+ * @author Gareth Arnott
+ */
 public class MainActivity extends Activity {
 
     MediaPlayer mpAudio;
