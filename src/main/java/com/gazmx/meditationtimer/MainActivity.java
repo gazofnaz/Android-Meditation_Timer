@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Button;
@@ -18,13 +17,13 @@ import android.widget.SeekBar;
  */
 public class MainActivity extends Activity {
 
-    MediaPlayer mpAudio;
-    Button b_play;
-    Button b_stop;
-    MyCount counter;
-    Integer myDuration;
-    SeekBar seekBar;
-    TextView timerInput;
+    private MediaPlayer mpAudio;
+    private Button b_play;
+    private Button b_stop;
+    private MyCount counter;
+    private Integer myDuration;
+    private SeekBar seekBar;
+    private TextView timerInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +45,13 @@ public class MainActivity extends Activity {
                 mpAudio = MediaPlayer.create(MainActivity.this, R.raw.singingbowl);
 
                 //parse edit text String to Int
-                //@todo Add some error checking here
-                myDuration = Integer.parseInt(timerInput.getText().toString());
+                try{
+                    myDuration = Integer.parseInt(timerInput.getText().toString());
+                }
+                catch(NullPointerException ex){
+                    //do nothing
+                }
+
                 //Convert minutes to milliseconds
                 myDuration = myDuration * 60 * 1000;
                 //instantiate counter 1200000 = 20 minutes
