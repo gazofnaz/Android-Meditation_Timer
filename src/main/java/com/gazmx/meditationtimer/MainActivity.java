@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
     private MediaPlayer mpAudio;
     private Button b_play;
     private Button b_stop;
-    private MyCount counter;
+    //private MyCount counter;
     private Integer myDuration;
     private SeekBar seekBar;
     private TextView timerInput;
@@ -45,22 +45,22 @@ public class MainActivity extends Activity {
                 startService(new Intent(getBaseContext(), MeditationService.class));
                 //set music
                 //@todo add option to play sound on start
-                mpAudio = MediaPlayer.create(MainActivity.this, R.raw.singingbowl);
+                //mpAudio = MediaPlayer.create(MainActivity.this, R.raw.singingbowl);
 
                 //parse edit text String to Int
-                try{
-                    myDuration = Integer.parseInt(timerInput.getText().toString());
-                }
-                catch(NullPointerException ex){
-                    //do nothing
-                }
+//                try{
+//                    myDuration = Integer.parseInt(timerInput.getText().toString());
+//                }
+//                catch(NullPointerException ex){
+//                    //do nothing
+//                }
 
                 //Convert minutes to milliseconds
-                myDuration = myDuration * 60 * 1000;
+                //myDuration = myDuration * 60 * 1000;
                 //instantiate counter 1200000 = 20 minutes
-                counter = new MyCount(myDuration,1000);
+                //counter = new MyCount(myDuration,1000);
                 //start counter
-                counter.start();
+                //counter.start();
             }
         });
 
@@ -69,8 +69,8 @@ public class MainActivity extends Activity {
         b_stop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 stopService(new Intent(getBaseContext(), MeditationService.class));
-                counter.cancel();
-                mpAudio.stop();
+                //counter.cancel();
+                //mpAudio.stop();
             }
         });
 
@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    public class MyCount extends CountDownTimer{
+/*    public class MyCount extends CountDownTimer{
 
         //Constructor, using name of the class, super passes it to parent?
         public MyCount(long millisInFuture, long countDownInterval) {
@@ -97,23 +97,23 @@ public class MainActivity extends Activity {
         //after the count is up, we start the song
         @Override
         public void onFinish() {
-            mpAudio.start();
-            final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
-            textViewToChange.setText("Done!");
+            //mpAudio.start();
+            //final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
+            //textViewToChange.setText("Done!");
         }
 
         //tick each second
         @Override
         public void onTick(long millisUntilFinished) {
             //get textView object
-            final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
+            //final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
 
             int seconds = (int) (millisUntilFinished / 1000) % 60 ;
             int minutes = (int) ((millisUntilFinished / (1000*60)) % 60);
             //set nice print for time
             finishTime=minutes+":"+seconds;
             //change time in textViews
-            textViewToChange.setText("Left: " + finishTime);
+            //textViewToChange.setText("Left: " + finishTime);
         }
-    }
+    }*/
 }
