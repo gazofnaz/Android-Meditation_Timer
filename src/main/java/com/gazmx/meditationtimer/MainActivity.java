@@ -1,5 +1,6 @@
 package com.gazmx.meditationtimer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.CountDownTimer;
@@ -41,6 +42,7 @@ public class MainActivity extends Activity {
         b_play = (Button) findViewById(R.id.b_play);
         b_play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                startService(new Intent(getBaseContext(), MeditationService.class));
                 //set music
                 //@todo add option to play sound on start
                 mpAudio = MediaPlayer.create(MainActivity.this, R.raw.singingbowl);
@@ -66,6 +68,7 @@ public class MainActivity extends Activity {
         b_stop = (Button) findViewById(R.id.b_stop);
         b_stop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                stopService(new Intent(getBaseContext(), MeditationService.class));
                 counter.cancel();
                 mpAudio.stop();
             }
