@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
     private Integer myDuration;
     private SeekBar seekBar;
     private TextView timerInput;
+    private String finishTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,7 @@ public class MainActivity extends Activity {
             int seconds = (int) (millisUntilFinished / 1000) % 60 ;
             int minutes = (int) ((millisUntilFinished / (1000*60)) % 60);
             //set nice print for time
-            String finishTime=minutes+":"+seconds;
+            finishTime=minutes+":"+seconds;
             //change time in textViews
             textViewToChange.setText("Left: " + finishTime);
         }
