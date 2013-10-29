@@ -21,10 +21,11 @@ public class MeditationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId ){
-        //this service will run until we stop it
-        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
-        counter = new MyCount(900000,1000);
+        Integer myDuration = intent.getExtras().getInt("myDuration");;
+        counter = new MyCount(myDuration,1000);
         counter.start();
+        //this service will run until we stop it
+        Toast.makeText(this, "Service Started " + myDuration, Toast.LENGTH_LONG).show();
         return START_STICKY;
     }
 
