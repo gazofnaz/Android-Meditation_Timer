@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Button;
@@ -51,6 +52,9 @@ public class MainActivity extends Activity {
                 //correct way to pass value to service
                 myIntent.putExtra("myDuration", myDuration );
                 startService(myIntent);
+                // hopefully will fix the tendency to not fire the sound
+                // when battery power is low. guess the cpu shuts down until woken
+                getWindow().clearFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
             }
         });
 
@@ -58,6 +62,7 @@ public class MainActivity extends Activity {
         b_stop = (Button) findViewById(R.id.b_stop);
         b_stop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                getWindow().clearFlags( android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
                 stopService(new Intent(getBaseContext(), MeditationService.class));
             }
         });
