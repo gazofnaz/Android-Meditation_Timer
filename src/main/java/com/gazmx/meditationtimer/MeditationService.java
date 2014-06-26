@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Gareth on 26/10/13.
  */
@@ -15,55 +17,63 @@ public class MeditationService extends Service {
     private MediaPlayer mpAudio;
 
     @Override
-    public IBinder onBind(Intent arg0){
+    public IBinder onBind( Intent arg0 ){
         return null;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId ){
-        Integer myDuration = intent.getExtras().getInt("myDuration");;
-        counter = new MyCount(myDuration,1000);
+    public int onStartCommand( Intent intent, int flags, int startId ){
+
+        Integer myDuration = intent.getExtras().getInt( "myDuration" );
+
+        // handy method to convert ms to minutes
+        long nicePrintDuration = TimeUnit.MILLISECONDS.toMinutes(myDuration);
+
+        // quick pluralisation
+        String message =  " minute";
+        if ( nicePrintDuration > 1 ){
+            message =  " minutes";
+        }
+
+        counter = new MyCount( myDuration,1000 );
         counter.start();
         //this service will run until we stop it
-        Toast.makeText(this, "Service Started " + myDuration, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,
+                       "Beginning Session, " + nicePrintDuration + message,
+                       Toast.LENGTH_LONG).show();
         return START_STICKY;
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        Toast.makeText(this, "Service Stopped", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Ending Session", Toast.LENGTH_LONG).show();
     }
 
     public class MyCount extends CountDownTimer {
 
         //Constructor, using name of the class, super passes it to parent?
-        public MyCount(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
+        public MyCount( long millisInFuture, long countDownInterval ) {
+            super( millisInFuture, countDownInterval );
         }
 
         //after the count is up, we start the song
         @Override
         public void onFinish() {
-            mpAudio = MediaPlayer.create(MeditationService.this, R.raw.singingbowl);
+            mpAudio = MediaPlayer.create( MeditationService.this, R.raw.singingbowl );
             mpAudio.start();
-            stopService(new Intent(getBaseContext(), MeditationService.class));
-            //final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
-            //textViewToChange.setText("Done!");
+            stopService(new Intent( getBaseContext(), MeditationService.class ) );
         }
 
         //tick each second
+        // @todo fix ticker
         @Override
-        public void onTick(long millisUntilFinished) {
-            //get textView object
-            //final TextView textViewToChange = (TextView) findViewById(R.id.t_duration);
+        public void onTick( long millisUntilFinished ) {
 
-            int seconds = (int) (millisUntilFinished / 1000) % 60 ;
-            int minutes = (int) ((millisUntilFinished / (1000*60)) % 60);
-            //set nice print for time
+            int seconds = (int) ( millisUntilFinished / 1000 ) % 60 ;
+            int minutes = (int) ( ( millisUntilFinished / (1000*60 ) ) % 60 );
             String finishTime=minutes+":"+seconds;
-            //change time in textViews
-            //textViewToChange.setText("Left: " + finishTime);
+
         }
     }
 }
