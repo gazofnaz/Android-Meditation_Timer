@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
-import android.media.MediaPlayer;
 import android.widget.Button;
 import android.widget.SeekBar;
 
@@ -52,9 +50,6 @@ public class MainActivity extends Activity {
                 //correct way to pass value to service
                 myIntent.putExtra("myDuration", myDuration );
                 startService(myIntent);
-                // hopefully will fix the tendency to not fire the sound
-                // when battery power is low. guess the cpu shuts down until woken
-                getWindow().clearFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
             }
         });
 

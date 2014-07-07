@@ -2,11 +2,12 @@ package com.gazmx.meditationtimer;
 
 import android.app.Service;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.widget.Toast;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,11 +38,24 @@ public class MeditationService extends Service {
 
         counter = new MyCount( myDuration,1000 );
         counter.start();
+
+        mpAudio = new MediaPlayer();
+        mpAudio.setAudioStreamType(AudioManager.STREAM_ALARM);
+
+        try {
+            mpAudio.setDataSource(getApplicationContext(), Uri.parse("android.resource://com.gazmx.meditationtimer/" + R.raw.singingbowl));
+        }
+        catch( Exception $e ){
+            // @todo do something with this
+        }
+        mpAudio.prepareAsync();
+
         //this service will run until we stop it
         Toast.makeText(this,
                        "Beginning Session, " + nicePrintDuration + message,
                        Toast.LENGTH_LONG).show();
         return START_STICKY;
+
     }
 
     @Override
@@ -60,7 +74,6 @@ public class MeditationService extends Service {
         //after the count is up, we start the song
         @Override
         public void onFinish() {
-            mpAudio = MediaPlayer.create( MeditationService.this, R.raw.singingbowl );
             mpAudio.start();
             stopService(new Intent( getBaseContext(), MeditationService.class ) );
         }
