@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
-import android.media.MediaPlayer;
 import android.widget.Button;
 import android.widget.SeekBar;
 
@@ -58,6 +57,7 @@ public class MainActivity extends Activity {
         b_stop = (Button) findViewById(R.id.b_stop);
         b_stop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                getWindow().clearFlags( android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
                 stopService(new Intent(getBaseContext(), MeditationService.class));
             }
         });
