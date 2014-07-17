@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.widget.Toast;
 import java.util.concurrent.TimeUnit;
 
@@ -17,9 +18,19 @@ public class MeditationService extends Service {
     private MyCount counter;
     private MediaPlayer mpAudio;
 
+    private PowerManager powerManager;
+    private PowerManager.WakeLock wakeLock;
+
     @Override
     public IBinder onBind( Intent arg0 ){
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        // this is the ealiest getSystemService can be called
+        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"MyWakelockTag");
     }
 
     @Override
@@ -54,6 +65,10 @@ public class MeditationService extends Service {
         Toast.makeText(this,
                        "Beginning Session, " + nicePrintDuration + message,
                        Toast.LENGTH_LONG).show();
+
+        // bad for battery, but PA seems to need it.
+        wakeLock.acquire();
+
         return START_STICKY;
 
     }
@@ -62,6 +77,8 @@ public class MeditationService extends Service {
     public void onDestroy(){
         super.onDestroy();
         Toast.makeText(this, "Ending Session", Toast.LENGTH_LONG).show();
+        wakeLock.release();
+
     }
 
     public class MyCount extends CountDownTimer {
